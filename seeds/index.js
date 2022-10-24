@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
-
 const Campground = require('../modules/campgorund');
-
 const cities  = require('./cities');
-
 const collections = require('./collectionsSeed').cellections;
-
 const axios = require('axios')
-
 const {places, descriptors} = require('./seedHelpers');
 const { ListGroupItem } = require('react-bootstrap');
+
 
 main().catch(err => console.log(`Could not connect to database: ${err}`));
 
