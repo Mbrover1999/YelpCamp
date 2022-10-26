@@ -7,13 +7,18 @@ const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override');
 const session = require('express-session')
 const flash = require('connect-flash')
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./modules/user');
+
 
 const ExpressError = require('./utils/ExpressError')
 
 
 //routs:
-const campgrounds = require('./routes/campgrounds')
-const reviews = require('./routes/reviews');
+const campgroundsRoutes = require('./routes/campgrounds')
+const reviewsRoutes = require('./routes/reviews');
+const userRoutes = require ('./routes/users')
 
 
 main().catch(err => console.log(`Could not connect to database: ${err}`));
@@ -46,16 +51,23 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error')
   next();
 });
 
-
-
-app.use('/campgrounds', campgrounds);
-app.use('/campgrounds/:id/reviews', reviews);
+app.use('/campgrounds', campgroundsRoutes);
+app.use('/campgrounds/:id/reviews', reviewsRoutes);
+app.use('/', userRoutes);
 
 
 app.get('/', (req, res) => {
@@ -70,6 +82,10 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
+  // if(err){
+  //   req.flash('error', "Campground not found");
+  //   return res.redirect('/campgrounds')
+  // }
   if (!err.message) err.message = "Something went wrong..."
   res.status(statusCode).render('error', { err });
 });

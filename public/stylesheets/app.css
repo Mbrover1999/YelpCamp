@@ -1,0 +1,10 @@
+.card-img-top {
+    width: 100% !important;
+    height: 30vw !important;
+    object-fit: cover !important;
+}
+.camps-img {
+    width: 100% !important;
+    height: 20vw !important;
+    object-fit: cover !important;
+}
