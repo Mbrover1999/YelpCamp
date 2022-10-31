@@ -8,3 +8,20 @@
     height: 20vw !important;
     object-fit: cover !important;
 }
+
+.img-thumbnail {
+    width: 10vw !important;
+    height: 10vw !important;
+    object-fit: cover !important;
+
+}
+
+#cluster-map {
+    width: 100%;
+    height: 500px;
+}
+
+#map {
+    width: 100%;
+    height: 300px;
+}

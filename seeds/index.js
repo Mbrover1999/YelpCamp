@@ -3,7 +3,7 @@ const Campground = require('../modules/campgorund');
 const cities  = require('./cities');
 const collections = require('./collectionsSeed').cellections;
 const axios = require('axios')
-const {places, descriptors} = require('./seedHelpers');
+const {places, descriptors, lng, lat} = require('./seedHelpers');
 const { ListGroupItem } = require('react-bootstrap');
 
 
@@ -19,14 +19,29 @@ const smaple =  array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
     await Campground.deleteMany({});
-    for (let i = 0; i < 50; i++){
+    for (let i = 0; i < 15; i++){
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10
         const camp = new Campground ( {
             author: '6358183f24ab3640ef0c87d9',
-            location : `${cities[random1000].city}, ${cities[random1000].state}`,
+            location : `Israel`,
             title: `${smaple(descriptors)} ${smaple(places)}`,
-            image: await seedImg(),
+            geometry: { 
+              type: 'Point',
+              coordinates: [smaple(lng), smaple(lat)] 
+              },
+            images: [{
+              url:  await seedImg(),
+              filename:"lololol"
+            },
+            {
+              url:  await seedImg(),
+              filename:"lololol242"
+            },
+            {
+              url:  await seedImg(),
+              filename:"lololol424"
+            }],
             description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium cumque at, quia nemo sit beatae totam veritatis tempora eum consequuntur pariatur qui velit architecto doloremque inventore aliquam debitis quam explicabo.',
             price
         });
@@ -56,3 +71,8 @@ const seedDB = async () => {
 seedDB().then(() => {
     mongoose.connection.close()
 });
+
+function randomLngLat() {
+
+
+}

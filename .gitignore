@@ -97,7 +97,8 @@ fabric.properties
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -256,7 +257,7 @@ dist
 ### Node Patch ###
 # Serverless Webpack directories
 .webpack/
-
+.env
 # Optional stylelint cache
 
 # SvelteKit build / generate output
